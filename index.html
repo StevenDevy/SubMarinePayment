@@ -201,7 +201,7 @@
         function getAmountFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             const amount = urlParams.get('am');
-            amount = decideAmount(amount);
+            amount = decodeAmount(amount);
             return amount ? parseFloat(amount) : 100; // Default to 100 if no amount
         }
 
