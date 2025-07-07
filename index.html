@@ -185,18 +185,30 @@
         let selectedPaymentMethod = null;
         const googleFormUrl = 'https://forms.gle/WKg6L12dy41urGgM7';
         const upiId = 'tamoghna69@fam';
+        function decodeAmount(code) {
+             const reverseMap = {
+                 A: '0', B: '1', C: '2', D:'3', E: '4', F: '5', G: '6', H: '7', I: '8', J: '9',X: '.'  // decimal point
+  };
+
+              return code
+                .toUpperCase()
+                .split('')
+                .map(char => reverseMap[char] ?? '')
+                .join('');
+}
 
         // Extract amount from URL parameter
         function getAmountFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
             const amount = urlParams.get('am');
+            amount = decideAmount(amount);
             return amount ? parseFloat(amount) : 100; // Default to 100 if no amount
         }
 
         // Initialize the page
         function init() {
             currentAmount = getAmountFromURL();
-            document.getElementById('amount-display').textContent = `₹${currentAmount}`;
+            current document.getElementById('amount-display').textContent = `₹${currentAmount}`;
             document.getElementById('qr-amount').textContent = `₹${currentAmount}`;
         }
 
