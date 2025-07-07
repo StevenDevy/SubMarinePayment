@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubNova - Select Payment Method</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#8B5CF6',
+                        secondary: '#A855F7',
+                        accent: '#C084FC'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white">
+    <div class="container mx-auto px-4 py-8 max-w-md">
+        
+        <!-- Payment Amount Display -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold mb-2">Payment</h1>
+            <div class="text-4xl font-bold text-primary mb-2" id="amount-display">₹0</div>
+            <p class="text-gray-400">SubNova Service</p>
+        </div>
+
+        <!-- Payment Method Selection -->
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 mb-6">
+            <h2 class="text-xl font-bold mb-6">Select Payment Method</h2>
+            
+            <div class="space-y-4">
+                <!-- Cash Payment Option -->
+                <button onclick="selectPaymentMethod('cash')" 
+                        class="w-full p-4 bg-gray-700/50 rounded-xl border border-gray-600 hover:border-primary hover:bg-gray-700/70 transition-all duration-200 flex items-center justify-between group"
+                        id="cash-option">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold">Cash Payment</div>
+                            <div class="text-sm text-gray-400">Pay with cash offline</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-5 h-5 border-2 border-gray-400 rounded-full mr-3 group-hover:border-primary transition-colors" id="cash-radio">
+                            <div class="w-full h-full bg-primary rounded-full scale-0 transition-transform" id="cash-radio-dot"></div>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </button>
+
+                <!-- UPI Payment Option -->
+                <button onclick="selectPaymentMethod('upi')" 
+                        class="w-full p-4 bg-gray-700/50 rounded-xl border border-gray-600 hover:border-primary hover:bg-gray-700/70 transition-all duration-200 flex items-center justify-between group"
+                        id="upi-option">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold">UPI Payment</div>
+                            <div class="text-sm text-gray-400">Pay using UPI apps</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-5 h-5 border-2 border-gray-400 rounded-full mr-3 group-hover:border-primary transition-colors" id="upi-radio">
+                            <div class="w-full h-full bg-primary rounded-full scale-0 transition-transform" id="upi-radio-dot"></div>
+                        </div>
+                        <svg class="w-5 h-5 text-gray-400 group-hover:text-primary transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Cash Payment Details -->
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 mb-6 hidden" id="cash-details">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Cash Payment Selected</h3>
+                <p class="text-gray-400 text-sm">You have selected to pay with cash. Please proceed to complete the form with your details.</p>
+            </div>
+        </div>
+
+        <!-- UPI Payment Details -->
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 mb-6 hidden" id="upi-details">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">UPI Payment</h3>
+                <div class="bg-gray-700/50 rounded-lg p-3 mb-4">
+                    <p class="text-gray-300 text-sm mb-1">UPI ID</p>
+                    <p class="font-mono font-semibold text-primary">tamoghna69@fam</p>
+                </div>
+            </div>
+
+            <!-- UPI Action Buttons -->
+            <div class="space-y-3 mb-6">
+                <button onclick="makeUPIPayment()" 
+                        class="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 rounded-xl font-semibold hover:from-green-600 hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                    </svg>
+                    Pay Now via UPI App
+                </button>
+                
+                <button onclick="toggleQRCode()" 
+                        class="w-full py-3 border-2 border-primary text-primary font-semibold rounded-xl hover:bg-primary/10 transition-colors flex items-center justify-center"
+                        id="qr-toggle-btn">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                    </svg>
+                    Show QR Code
+                </button>
+            </div>
+
+            <!-- QR Code Display -->
+            <div class="hidden" id="qr-code-section">
+                <div class="bg-gray-700/50 rounded-xl p-6 text-center border border-gray-600 mb-6">
+                    <p class="text-gray-300 mb-4 font-semibold">Scan QR Code to Pay</p>
+                    <div class="flex justify-center mb-4">
+                        <div class="bg-white p-3 rounded-lg">
+                            <img id="qr-image" src="/placeholder.svg" alt="UPI QR Code" class="w-40 h-40" style="display: none;">
+                            <div id="qr-loading" class="w-40 h-40 flex items-center justify-center">
+                                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-gray-400 mb-1">Amount</p>
+                        <p class="text-lg font-bold text-primary" id="qr-amount">₹0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Warning -->
+            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 mb-6">
+                <div class="flex items-start">
+                    <svg class="w-5 h-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                    <div>
+                        <p class="text-sm font-medium text-yellow-300">Important</p>
+                        <p class="text-sm text-yellow-200">Complete the payment before clicking Continue. You'll need to provide payment screenshot and transaction ID in the form.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Continue Button (Hidden by default) -->
+        <button onclick="proceedToForm()" 
+                class="w-full py-4 bg-gradient-to-r from-primary to-secondary rounded-xl font-semibold text-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl hidden"
+                id="continue-btn">
+            Continue to Form
+        </button>
+
+        <!-- Terms -->
+        <p class="text-center text-gray-400 text-sm mt-6">
+            By continuing, you agree to our terms of service
+        </p>
+    </div>
+
+    <script>
+        let currentAmount = 0;
+        let selectedPaymentMethod = null;
+        const googleFormUrl = 'https://forms.gle/WKg6L12dy41urGgM7';
+        const upiId = 'tamoghna69@fam';
+
+        // Extract amount from URL parameter
+        function getAmountFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const amount = urlParams.get('am');
+            return amount ? parseFloat(amount) : 100; // Default to 100 if no amount
+        }
+
+        // Initialize the page
+        function init() {
+            currentAmount = getAmountFromURL();
+            document.getElementById('amount-display').textContent = `₹${currentAmount}`;
+            document.getElementById('qr-amount').textContent = `₹${currentAmount}`;
+        }
+
+        // Select payment method
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            
+            // Reset all selections
+            document.getElementById('cash-radio-dot').classList.remove('scale-100');
+            document.getElementById('cash-radio-dot').classList.add('scale-0');
+            document.getElementById('upi-radio-dot').classList.remove('scale-100');
+            document.getElementById('upi-radio-dot').classList.add('scale-0');
+            
+            // Hide all details
+            document.getElementById('cash-details').classList.add('hidden');
+            document.getElementById('upi-details').classList.add('hidden');
+            document.getElementById('qr-code-section').classList.add('hidden');
+            
+            // Show selected method
+            if (method === 'cash') {
+                document.getElementById('cash-radio-dot').classList.remove('scale-0');
+                document.getElementById('cash-radio-dot').classList.add('scale-100');
+                document.getElementById('cash-details').classList.remove('hidden');
+            } else if (method === 'upi') {
+                document.getElementById('upi-radio-dot').classList.remove('scale-0');
+                document.getElementById('upi-radio-dot').classList.add('scale-100');
+                document.getElementById('upi-details').classList.remove('hidden');
+            }
+            
+            // Show continue button
+            document.getElementById('continue-btn').classList.remove('hidden');
+        }
+
+        // Make UPI payment
+        function makeUPIPayment() {
+            const upiUrl = `upi://pay?pa=${upiId}&pn=SubNova&am=${currentAmount}&cu=INR&tn=Payment%20to%20SubNova`;
+            
+            // Try to open UPI app
+            window.location.href = upiUrl;
+        }
+
+        // Toggle QR code display
+        function toggleQRCode() {
+            const qrSection = document.getElementById('qr-code-section');
+            const toggleBtn = document.getElementById('qr-toggle-btn');
+            
+            if (qrSection.classList.contains('hidden')) {
+                // Show QR code
+                qrSection.classList.remove('hidden');
+                toggleBtn.innerHTML = `
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                    Hide QR Code
+                `;
+                
+                // Generate QR code using API
+                generateQRCode();
+            } else {
+                // Hide QR code
+                qrSection.classList.add('hidden');
+                toggleBtn.innerHTML = `
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+                    </svg>
+                    Show QR Code
+                `;
+            }
+        }
+
+        // Generate QR code using API
+        function generateQRCode() {
+            const upiUrl = `upi://pay?pa=${upiId}&pn=SubNova&am=${currentAmount}&cu=INR&tn=Payment%20to%20SubNova`;
+            const qrImage = document.getElementById('qr-image');
+            const qrLoading = document.getElementById('qr-loading');
+            
+            // Show loading
+            qrLoading.style.display = 'flex';
+            qrImage.style.display = 'none';
+            
+            // Generate QR code using API
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(upiUrl)}`;
+            
+            // Create new image to test if it loads
+            const testImage = new Image();
+            testImage.crossOrigin = 'anonymous';
+            testImage.onload = function() {
+                // Image loaded successfully
+                qrImage.src = qrApiUrl;
+                qrImage.style.display = 'block';
+                qrLoading.style.display = 'none';
+            };
+            testImage.onerror = function() {
+                // Fallback to different QR API
+                const fallbackUrl = `https://chart.googleapis.com/chart?chs=160x160&cht=qr&chl=${encodeURIComponent(upiUrl)}`;
+                qrImage.src = fallbackUrl;
+                qrImage.style.display = 'block';
+                qrLoading.style.display = 'none';
+            };
+            testImage.src = qrApiUrl;
+        }
+
+        // Proceed to Google Form
+        function proceedToForm() {
+            window.open(googleFormUrl, '_blank');
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
