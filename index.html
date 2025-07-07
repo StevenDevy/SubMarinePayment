@@ -200,10 +200,10 @@
         // Extract amount from URL parameter
         function getAmountFromURL() {
             const urlParams = new URLSearchParams(window.location.search);
-            const amount = urlParams.get('am');
-            amount = decodeAmount(amount);
-            return amount ? parseFloat(amount) : 100; // Default to 100 if no amount
-        }
+            const code = urlParams.get('am'); // encoded value like IAXAA
+            const decoded = decodeAmount(code);
+            return decoded ? parseFloat(decoded) : 100; // Default to 100
+}
 
         // Initialize the page
         function init() {
