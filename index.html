@@ -281,7 +281,7 @@ document.getElementById('amount-display').textContent = `₹${currentAmount}`;
 
         // Generate QR code using API
         function generateQRCode() {
-            const upiUrl = `upi://pay?pa=${upiId}&pn=SubNova&am=${currentAmount}&cu=INR&tn=Payment%20to%20SubNova`;
+            const upiUrl = `upi://pay?pa=${upiId}&pn=SubMarine&am=${currentAmount}&cu=INR&tn=Payment%20to%20SubMarine`;
             const qrImage = document.getElementById('qr-image');
             const qrLoading = document.getElementById('qr-loading');
             
