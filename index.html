@@ -244,7 +244,7 @@ document.getElementById('amount-display').textContent = `₹${currentAmount}`;
 
         // Make UPI payment
         function makeUPIPayment() {
-            const upiUrl = `upi://pay?pa=${upiId}&pn=SubNova&am=${currentAmount}&cu=INR&tn=Payment%20to%20SubNova`;
+            const upiUrl = `upi://pay?pa=${upiId}&pn=SubMarine&am=${currentAmount}&cu=INR&tn=Payment%20to%20SubMarine`;
             
             // Try to open UPI app
             window.location.href = upiUrl;
